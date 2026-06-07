@@ -1,0 +1,19 @@
+{
+  "folders": [
+    { "name": ".dev", "path": "." },
+    { "name": ".github", "path": "../.github" },
+    { "name": "brigid", "path": "../brigid" }
+  ],
+  "settings": {
+    "conventionalCommits.gitmoji": true,
+    "conventionalCommits.scopes": [
+      "devcontainer",
+      "workspace",
+      "scripts",
+      "agents",
+      "ci",
+      "docs",
+      "deps"
+    ]
+  }
+}
