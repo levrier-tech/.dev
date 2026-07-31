@@ -83,3 +83,12 @@ Sibling repos (`.github`, `brigid`) live **next to** this folder on the host. Th
 - Do **not** add runtime code, packages, or build outputs. This repo is configuration only.
 - Do **not** duplicate per-repo agent rules — they live in their own `AGENTS.md`.
 - When adding a new sibling repo, update `repos.json`, `levrier-tech.code-workspace`, and `.devcontainer/devcontainer.json` together.
+
+## Inheritance
+
+This repo's *shape* (`CLAUDE.md`, `scopes.json`, `commit-convention.json`,
+`.claude/commands/commit.md`) is ported from
+[helpers4/.dev](https://github.com/helpers4/.dev)'s canonical setup. Deltas from that shape:
+- **License: MIT** (not LGPL-3.0-or-later).
+- **Bootstrap-stage org** — only 2 sibling repos (`.github`, `brigid`) today, no product-specific
+  stack conventions yet.
