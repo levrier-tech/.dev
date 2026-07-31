@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Lévrier Tech orchestrator — devcontainer setup
 #
-# 1. For every sibling repo declared in $LT_REPOS, ensure it exists at
-#    /workspaces/<repo>. Falls back to `gh repo clone` if the bind-mount is
-#    empty (Codespaces or fresh machine).
-# 2. Run `pnpm install` on each sibling that has a package.json (best effort).
+# For every sibling repo declared in $LT_REPOS, ensure it exists at
+# /workspaces/<repo>. Falls back to `gh repo clone` if the bind-mount is
+# empty (Codespaces or fresh machine).
+# pnpm install is handled by the package-auto-install feature (autoDiscover).
 set -euo pipefail
 
 echo "✨ Setting up Lévrier Tech workspace…"
@@ -27,26 +27,6 @@ for repo in $REPOS; do
     git clone "https://github.com/${ORG}/${repo}.git" "${target}" || echo "⚠️  ${repo}: clone failed (continuing)"
   fi
 done
-
-if command -v pnpm >/dev/null 2>&1; then
-  PNPM_STORE_VOL="/.pnpm-store"
-  if [ -d "$PNPM_STORE_VOL" ]; then
-    sudo chown -R node:node "$PNPM_STORE_VOL" 2>/dev/null || true
-  fi
-  PNPM_RC="${HOME}/.npmrc"
-  if ! grep -q "^store-dir" "$PNPM_RC" 2>/dev/null; then
-    printf 'store-dir=%s\n' "$PNPM_STORE_VOL" >> "$PNPM_RC"
-  fi
-
-  for repo in $REPOS; do
-    target="/workspaces/${repo}"
-    if [ -f "${target}/package.json" ]; then
-      echo "📦 pnpm install — ${repo}"
-      (cd "${target}" && pnpm install --prefer-offline) \
-        || echo "⚠️  pnpm install failed in ${repo} (continuing)"
-    fi
-  done
-fi
 
 echo ""
 echo "🎉 Lévrier Tech workspace ready."

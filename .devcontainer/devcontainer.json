@@ -10,9 +10,7 @@
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/.dev,type=bind,consistency=cached",
   "mounts": [
     "source=${localWorkspaceFolder}/../.github,target=/workspaces/.github,type=bind,consistency=cached",
-    "source=${localWorkspaceFolder}/../brigid,target=/workspaces/brigid,type=bind,consistency=cached",
-    // Shared pnpm store volume — persists across rebuilds.
-    "source=levrier-tech-pnpm-store,target=/.pnpm-store,type=volume"
+    "source=${localWorkspaceFolder}/../brigid,target=/workspaces/brigid,type=bind,consistency=cached"
   ],
   "containerEnv": {
     "LT_ORG": "levrier-tech",
@@ -43,7 +41,9 @@
     },
     "ghcr.io/helpers4/devcontainer/pnpm-store:1": {},
     "ghcr.io/helpers4/devcontainer/claude-dev:1": {},
-    "ghcr.io/helpers4/devcontainer/package-auto-install:1": {}
+    "ghcr.io/helpers4/devcontainer/package-auto-install:1": {
+      "autoDiscover": true
+    }
   },
   "customizations": {
     "vscode": {
