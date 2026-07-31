@@ -51,6 +51,30 @@ All repos follow [Conventional Commits](https://www.conventionalcommits.org/) wi
 | build | 📦️ | Build system / deps |
 | revert | ⏪️ | Revert |
 
+## Git Workflow
+
+Lévrier Tech ships to production, so branches go through an intermediate stage before `main`.
+Every merge is **rebase + fast-forward only** — no merge commits, no squash merges, anywhere.
+
+**Branches:**
+
+| Branch | Purpose | Lifetime |
+| --- | --- | --- |
+| `main` | Production | Permanent |
+| `dev/*` (e.g. `dev/2026-08`) | Internal/staging release train | One per cycle — deleted after merging into `main` |
+| `hotfix/*` | Urgent production fix, bypasses `dev/*` | One per fix — deleted after merging into `main` |
+| `feat/*`, `bug/*` | Regular work | One per change — deleted after merging into the current `dev/*` |
+
+**Merging (always via PR, never a direct push to `main` or `dev/*`):**
+
+- `feat/*` / `bug/*` → rebase onto the current `dev/*` tip, then fast-forward merge into `dev/*`.
+- `dev/*` → rebase onto `main`'s tip, then fast-forward merge into `main`.
+- `hotfix/*` → branched from `main`, rebase onto `main`'s tip, then fast-forward merge into `main`.
+- If a `hotfix/*` lands on `main` while a `dev/*` is still in flight, rebase that `dev/*` onto the
+  new `main` before its own merge — fast-forward tolerates no divergence.
+- Releases are tracked with **tags on `main`** (there's no merge commit to mark them, since every
+  merge is a fast-forward).
+
 ## This Repository (.dev)
 
 **Purpose:** Orchestrate the Lévrier Tech organization — multi-root VS Code workspace, unified DevContainer, canonical agent rules, shared VS Code settings.

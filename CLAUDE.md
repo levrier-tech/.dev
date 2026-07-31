@@ -39,6 +39,11 @@ volume — not by a manual loop in `setup-container.sh`.
 **Adding a sibling repo**: update `repos.json`, `levrier-tech.code-workspace`, and
 `.devcontainer/devcontainer.json` (mounts + `LT_REPOS`) together.
 
+**Git workflow**: `main` and `dev/*` are protected — never push directly. Branch from `dev/*`
+(`feat/*`/`bug/*`) or from `main` for an urgent prod fix (`hotfix/*`). Every merge is rebase +
+fast-forward only — rebase onto the target's tip before merging, no merge commits, no squash.
+See AGENTS.md's Git Workflow section.
+
 ## AI persistence
 
 `~/.claude` is bind-mounted from the host and symlinked at every container start by
