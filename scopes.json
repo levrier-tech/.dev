@@ -1,7 +1,6 @@
 [
   "devcontainer",
   "workspace",
-  "scripts",
   "ai",
   "ci",
   "docs",

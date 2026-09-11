@@ -105,29 +105,28 @@ Every merge is **rebase + fast-forward only** — no merge commits, no squash me
 ```
 .dev/
 ├── .devcontainer/
-│   ├── devcontainer.json       # Cross-repo dev environment
-│   └── setup-container.sh      # postCreateCommand: clone-fallback + install
+│   ├── devcontainer.json       # Cross-repo dev environment (named volumes)
+│   └── setup-container.sh      # postCreateCommand: clone-if-empty per volume
 ├── .vscode/
 │   └── settings.json           # Repo-specific overrides (scopes)
-├── scripts/
-│   ├── repos.mjs               # Source of truth (reads repos.json)
-│   ├── run-each.mjs            # Run a pnpm script in every sibling repo
-│   └── git-each.mjs            # Run a git command in every sibling repo
 ├── levrier-tech.code-workspace # Multi-root workspace + shared settings
-├── repos.json                  # List of sibling repos
-├── package.json                # Cross-repo orchestration scripts
 ├── AGENTS.md                   # This file (canonical org-wide rules)
 ├── README.md
 └── LICENSE                     # MIT
 ```
 
-Sibling repos (`.github`, `brigid`) live **next to** this folder on the host. The devcontainer bind-mounts each of them at `/workspaces/<name>`.
+Sibling repos (`.github`, `brigid`) each live on their own named Docker volume, not a
+host bind-mount — `setup-container.sh` clones them from GitHub the first time the
+volume is empty, so the devcontainer works identically on GitHub Codespaces and local
+Docker Desktop/WSL2. No `repos.json`/`scripts/`/`package.json` orchestration layer —
+the sibling list lives only in `devcontainer.json`'s `LT_REPOS`.
 
 ### What NOT to do here
 
 - Do **not** add runtime code, packages, or build outputs. This repo is configuration only.
 - Do **not** duplicate per-repo agent rules — they live in their own `AGENTS.md`.
-- When adding a new sibling repo, update `repos.json`, `levrier-tech.code-workspace`, and `.devcontainer/devcontainer.json` together.
+- When adding a new sibling repo, update `levrier-tech.code-workspace` and
+  `.devcontainer/devcontainer.json` (`mounts` + `LT_REPOS`) together.
 
 ## Inheritance
 
@@ -140,3 +139,6 @@ This repo's *shape* (`CLAUDE.md`, `scopes.json`, `commit-convention.json`,
 - **Git Workflow structure**: mirrors [brig-id/roots](https://github.com/brig-id/roots)'s
   `dev/*`/`hotfix/*` release-train model rather than helpers4's simpler default flow — Lévrier
   Tech also ships to production, so the same rebase+fast-forward discipline applies here.
+- **Orchestration**: sibling repos are cloned onto named Docker volumes by
+  `setup-container.sh` (matching `tuxery/.dev` and `brig-id/roots`), not tracked via
+  `repos.json`/`scripts/`/`package.json`.

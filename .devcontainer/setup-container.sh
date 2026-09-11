@@ -2,8 +2,9 @@
 # Lévrier Tech orchestrator — devcontainer setup
 #
 # For every sibling repo declared in $LT_REPOS, ensure it exists at
-# /workspaces/<repo>. Falls back to `gh repo clone` if the bind-mount is
-# empty (Codespaces or fresh machine).
+# /workspaces/<repo>. Each lives on its own named Docker volume (see
+# devcontainer.json's "mounts") — this loop only actually clones on a fresh
+# volume (first run, or after a full teardown), never on a plain rebuild.
 # pnpm install is handled by the package-auto-install feature (autoDiscover).
 set -euo pipefail
 

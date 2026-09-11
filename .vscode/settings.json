@@ -3,7 +3,6 @@
   "conventionalCommits.scopes": [
     "devcontainer",
     "workspace",
-    "scripts",
     "ai",
     "ci",
     "docs",

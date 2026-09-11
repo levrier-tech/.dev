@@ -9,8 +9,7 @@
     "conventionalCommits.scopes": [
       "devcontainer",
       "workspace",
-      "scripts",
-      "agents",
+      "ai",
       "ci",
       "docs",
       "deps"
