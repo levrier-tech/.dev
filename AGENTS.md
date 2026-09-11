@@ -4,12 +4,24 @@ This is the **canonical, org-wide** agent guidance for the Lévrier Tech organiz
 Every levrier-tech repository inherits these rules. Per-repo `AGENTS.md` files only add
 project-specific details on top of what is defined here.
 
-## ⛔ CRITICAL RESTRICTIONS
+## Restrictions
 
-- **NEVER execute `git push`** — The user pushes manually after review.
-- **NEVER execute `git commit` or `git add`** — The user stages and commits manually. Fix files, then stop.
-- **NEVER use GPT models** — Use Claude models only (claude-sonnet-4.x, Claude Opus 4.x+).
 - **Everything in English** — Code, comments, commits, documentation, logs, PR descriptions.
+
+See **Git Workflow** below for the default branch/commit/push/PR policy.
+
+## Code Comments
+
+Write comments for someone reading the code cold — they never see the diff or the previous
+version, only what's in front of them. Describe what the code *is* and *why* it's that way,
+never what changed to get there.
+
+- ❌ `contents: write # was read-only — this job now also commits X`
+- ✅ `contents: write # commits X`
+
+If a comment needs "was"/"before"/"previously"/"now" (or a timestamp: "as of writing", "since
+last month") to make sense, that content belongs in the commit message or PR description, not
+the code — it rots the moment someone reads the file without the diff in front of them.
 
 ## Organization Context
 
@@ -52,6 +64,15 @@ All repos follow [Conventional Commits](https://www.conventionalcommits.org/) wi
 | revert | ⏪️ | Revert |
 
 ## Git Workflow
+
+Default policy for the agent — nuanced, not a hard rule: ask if a specific task calls for
+something different, but absent other instructions — branch, commit by subject (Conventional
+Commits mandatory), push only once it looks safe (a human review of the diff first is
+recommended, especially for anything non-trivial — ask if unsure), open a PR, and never merge
+(including the fast-forward step below) — merging is always a human decision. A narrow,
+temporary carve-out (e.g. "push straight to `main` for this one fix") may be granted in
+conversation for a specific piece of work — treat it as scoped to exactly what was said, never
+as a standing precedent to reuse elsewhere or later without asking again.
 
 Lévrier Tech ships to production, so branches go through an intermediate stage before `main`.
 Every merge is **rebase + fast-forward only** — no merge commits, no squash merges, anywhere.
@@ -116,3 +137,6 @@ This repo's *shape* (`CLAUDE.md`, `scopes.json`, `commit-convention.json`,
 - **License: MIT** (not LGPL-3.0-or-later).
 - **Bootstrap-stage org** — only 2 sibling repos (`.github`, `brigid`) today, no product-specific
   stack conventions yet.
+- **Git Workflow structure**: mirrors [brig-id/roots](https://github.com/brig-id/roots)'s
+  `dev/*`/`hotfix/*` release-train model rather than helpers4's simpler default flow — Lévrier
+  Tech also ships to production, so the same rebase+fast-forward discipline applies here.
