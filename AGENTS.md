@@ -66,8 +66,10 @@ All repos follow [Conventional Commits](https://www.conventionalcommits.org/) wi
 ## Git Workflow
 
 Default policy for the agent — nuanced, not a hard rule: ask if a specific task calls for
-something different, but absent other instructions — branch, commit by subject (Conventional
-Commits mandatory), push only once it looks safe (a human review of the diff first is
+something different, but absent other instructions — branch (create it with `git checkout -b
+<name>` *before* the first commit; never commit while on `main` and rename the branch afterward,
+which can leave its upstream tracking pointed at `origin/main` and let a later push land directly
+on `main` unnoticed), commit by subject (Conventional Commits mandatory), push only once it looks safe (a human review of the diff first is
 recommended, especially for anything non-trivial — ask if unsure), open a PR, and never merge
 (including the fast-forward step below) — merging is always a human decision. A narrow,
 temporary carve-out (e.g. "push straight to `main` for this one fix") may be granted in
