@@ -39,5 +39,5 @@ pnpm run build:all    # pnpm build in every repo that has it
 Export a GitHub token scoped to levrier-tech before opening the devcontainer:
 
 ```bash
-export GH_TOKEN_FOR_LEVRIER_TECH=<your-token>
+export GH_TOKEN_FOR_LEVRIER_PROJECT=<your-token>
 ```
