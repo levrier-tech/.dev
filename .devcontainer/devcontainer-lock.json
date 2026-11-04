@@ -18,14 +18,6 @@
         "ghcr.io/helpers4/devcontainer/helpers4-common:1"
       ]
     },
-    "ghcr.io/helpers4/devcontainer/dotfiles-sync:1": {
-      "version": "1.2.3",
-      "resolved": "ghcr.io/helpers4/devcontainer/dotfiles-sync@sha256:381f767d19bddc983a8d3a89c4c61f48b3445f591ba948b93dd01b8c07d594bb",
-      "integrity": "sha256:381f767d19bddc983a8d3a89c4c61f48b3445f591ba948b93dd01b8c07d594bb",
-      "dependsOn": [
-        "ghcr.io/helpers4/devcontainer/helpers4-common:1"
-      ]
-    },
     "ghcr.io/helpers4/devcontainer/essential-dev:1": {
       "version": "1.2.4",
       "resolved": "ghcr.io/helpers4/devcontainer/essential-dev@sha256:0ac275fcdf516fe09da90d4470066abae46a0da6f3b3e349dee96b1bde59ba10",
