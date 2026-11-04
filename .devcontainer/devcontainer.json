@@ -8,12 +8,11 @@
   // if a sibling repo is missing on host (e.g. GitHub Codespaces).
   "workspaceFolder": "/workspaces/.dev",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/.dev,type=bind,consistency=cached",
-  "containerEnv": {
-    "GH_TOKEN": "${localEnv:GH_TOKEN_FOR_LEVRIER_TECH}"
-  },
   // GH_TOKEN: forwards a levrier-tech-scoped host token into the container so gh
   // and the GitHub VS Code extensions are authenticated out of the box.
   // Set on the host: export GH_TOKEN_FOR_LEVRIER_TECH=<token>
+  // Secrets live in remoteEnv, not containerEnv: they are not baked into the container
+  // (docker run args / docker inspect) and a rotated token needs a reconnect, not a rebuild.
   "remoteEnv": {
     "GH_TOKEN": "${localEnv:GH_TOKEN_FOR_LEVRIER_TECH}"
   },
