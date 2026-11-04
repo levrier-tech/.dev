@@ -33,7 +33,7 @@ All repos follow [Conventional Commits](https://www.conventionalcommits.org/) wi
 - Description ≤72 chars, lowercase, imperative mood, no trailing period
 - Always include exactly ONE emoji
 - Multiple logical changes → bullet list in body
-- Allowed scopes are repo-specific — see each repo's `.vscode/settings.json` (`conventionalCommits.scopes`)
+- Allowed scopes are repo-specific — see each repo's `scopes.json`
 
 **Type / emoji table:**
 
@@ -60,17 +60,14 @@ All repos follow [Conventional Commits](https://www.conventionalcommits.org/) wi
 ```
 .dev/
 ├── .devcontainer/
-│   ├── devcontainer.json       # Cross-repo dev environment
-│   └── setup-container.sh      # postCreateCommand: clone-fallback + install
+│   └── devcontainer.json       # Cross-repo dev environment (org-workspace clones siblings)
 ├── .vscode/
 │   └── settings.json           # Repo-specific overrides (scopes)
-├── scripts/
-│   ├── repos.mjs               # Source of truth (reads repos.json)
-│   ├── run-each.mjs            # Run a pnpm script in every sibling repo
-│   └── git-each.mjs            # Run a git command in every sibling repo
+├── .claude/commands/commit.md  # /commit slash command
+├── commit-convention.json      # Full type→emoji mapping
+├── scopes.json                 # Allowed commit scopes for this repo
+├── CLAUDE.md                   # Claude Code-specific pointer
 ├── levrier-tech.code-workspace # Multi-root workspace + shared settings
-├── repos.json                  # List of sibling repos
-├── package.json                # Cross-repo orchestration scripts
 ├── AGENTS.md                   # This file (canonical org-wide rules)
 ├── README.md
 └── LICENSE                     # MIT
@@ -82,4 +79,4 @@ Sibling repos (`.github`, `brigid`, …) are cloned by the `org-workspace` devco
 
 - Do **not** add runtime code, packages, or build outputs. This repo is configuration only.
 - Do **not** duplicate per-repo agent rules — they live in their own `AGENTS.md`.
-- When adding a new sibling repo, update `repos.json`, `levrier-tech.code-workspace`, and `.devcontainer/devcontainer.json` together.
+- When adding a new sibling repo, nothing to update by hand: `org-workspace` discovers the org repos and keeps `levrier-tech.code-workspace` up to date (tune its options in `.devcontainer/devcontainer.json`).
