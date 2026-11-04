@@ -17,9 +17,6 @@
   "remoteEnv": {
     "GH_TOKEN": "${localEnv:GH_TOKEN_FOR_LEVRIER_TECH}"
   },
-  // dotfiles-sync bind-mounts these host paths; Docker refuses to start the container
-  // if one is missing (e.g. a machine without ~/.kube). Runs on the host.
-  "initializeCommand": "mkdir -p ~/.ssh ~/.gnupg ~/.config/git ~/.aws ~/.kube ~/.docker && touch ~/.gitconfig ~/.npmrc ~/.yarnrc.yml ~/.aws/config ~/.kube/config ~/.docker/config.json",
   "features": {
     "ghcr.io/helpers4/devcontainer/org-workspace:1": {
       "autoDiscover": "public,private,internal,fork"
@@ -29,7 +26,6 @@
     },
     "ghcr.io/devcontainers/features/git-lfs:1": {},
     // ── helpers4 features ─────────────────────────────────────────────────────
-    "ghcr.io/helpers4/devcontainer/dotfiles-sync:1": {},
     "ghcr.io/helpers4/devcontainer/shell-history:1": {},
     "ghcr.io/helpers4/devcontainer/git-absorb:1": {},
     "ghcr.io/helpers4/devcontainer/essential-dev:1": {},
