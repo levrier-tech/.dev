@@ -1,32 +1,10 @@
 #!/usr/bin/env bash
 # Lévrier Tech orchestrator — devcontainer setup
 #
-# 1. For every sibling repo declared in $LT_REPOS, ensure it exists at
-#    /workspaces/<repo>. Falls back to `gh repo clone` if the bind-mount is
-#    empty (Codespaces or fresh machine).
-# 2. Run `pnpm install` on each sibling that has a package.json (best effort).
+# 1. Run `pnpm install` on each sibling that has a package.json (best effort).
 set -euo pipefail
 
 echo "✨ Setting up Lévrier Tech workspace…"
-
-ORG="${LT_ORG:-levrier-tech}"
-REPOS="${LT_REPOS:-.github brigid}"
-
-for repo in $REPOS; do
-  target="/workspaces/${repo}"
-  if [ -d "${target}/.git" ] || [ -f "${target}/package.json" ] || [ -n "$(ls -A "${target}" 2>/dev/null || true)" ]; then
-    echo "✓ ${repo}: already present"
-    continue
-  fi
-
-  echo "→ ${repo}: cloning missing sibling repository"
-  rm -rf "${target}" 2>/dev/null || true
-  if command -v gh >/dev/null 2>&1; then
-    gh repo clone "${ORG}/${repo}" "${target}" || echo "⚠️  ${repo}: clone failed (continuing)"
-  else
-    git clone "https://github.com/${ORG}/${repo}.git" "${target}" || echo "⚠️  ${repo}: clone failed (continuing)"
-  fi
-done
 
 if command -v pnpm >/dev/null 2>&1; then
   PNPM_STORE_VOL="/.pnpm-store"
@@ -38,8 +16,10 @@ if command -v pnpm >/dev/null 2>&1; then
     printf 'store-dir=%s\n' "$PNPM_STORE_VOL" >> "$PNPM_RC"
   fi
 
-  for repo in $REPOS; do
-    target="/workspaces/${repo}"
+  # Repos are cloned by the org-workspace feature into /workspaces/<repo>.
+  for target in /workspaces/*/; do
+    target="${target%/}"
+    repo="$(basename "${target}")"
     if [ -f "${target}/package.json" ]; then
       echo "📦 pnpm install — ${repo}"
       (cd "${target}" && pnpm install --prefer-offline) \

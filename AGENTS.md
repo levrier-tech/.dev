@@ -76,7 +76,7 @@ All repos follow [Conventional Commits](https://www.conventionalcommits.org/) wi
 └── LICENSE                     # MIT
 ```
 
-Sibling repos (`.github`, `brigid`) live **next to** this folder on the host. The devcontainer bind-mounts each of them at `/workspaces/<name>`.
+Sibling repos (`.github`, `brigid`, …) are cloned by the `org-workspace` devcontainer feature at `/workspaces/<name>`, next to this folder.
 
 ### What NOT to do here
 

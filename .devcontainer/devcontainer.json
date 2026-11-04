@@ -9,14 +9,10 @@
   "workspaceFolder": "/workspaces/.dev",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/.dev,type=bind,consistency=cached",
   "mounts": [
-    "source=${localWorkspaceFolder}/../.github,target=/workspaces/.github,type=bind,consistency=cached",
-    "source=${localWorkspaceFolder}/../brigid,target=/workspaces/brigid,type=bind,consistency=cached",
     // Shared pnpm store volume — persists across rebuilds.
     "source=levrier-tech-pnpm-store,target=/.pnpm-store,type=volume"
   ],
   "containerEnv": {
-    "LT_ORG": "levrier-tech",
-    "LT_REPOS": ".github brigid",
     "GH_TOKEN": "${localEnv:GH_TOKEN_FOR_LEVRIER_TECH}"
   },
   // GH_TOKEN: forwards a levrier-tech-scoped host token into the container so gh
@@ -26,6 +22,9 @@
     "GH_TOKEN": "${localEnv:GH_TOKEN_FOR_LEVRIER_TECH}"
   },
   "features": {
+    "ghcr.io/helpers4/devcontainer/org-workspace:1": {
+      "autoDiscover": "public,private,internal,fork"
+    },
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
       "moby": false
     },
@@ -42,7 +41,10 @@
       "packs": "peasant_fr,peon_fr,warcraft-peon"
     },
     "ghcr.io/helpers4/devcontainer/pnpm-store:1": {},
-    "ghcr.io/helpers4/devcontainer/claude-dev:1": {},
+    "ghcr.io/helpers4/devcontainer/claude-dev:1": {
+      "remoteControl": true,
+      "remoteControlAutoTrust": true
+    },
     "ghcr.io/helpers4/devcontainer/package-auto-install:1": {}
   },
   "customizations": {
