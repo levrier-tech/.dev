@@ -1,6 +1,6 @@
 {
   "name": "Lévrier Tech",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:24",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:26",
   // Orchestrator devcontainer for the levrier-tech organization.
   //
   // Bind-mounts every sibling levrier-tech repo from the host (../<name>) into
@@ -8,10 +8,6 @@
   // if a sibling repo is missing on host (e.g. GitHub Codespaces).
   "workspaceFolder": "/workspaces/.dev",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/.dev,type=bind,consistency=cached",
-  "mounts": [
-    // Shared pnpm store volume — persists across rebuilds.
-    "source=levrier-tech-pnpm-store,target=/.pnpm-store,type=volume"
-  ],
   "containerEnv": {
     "GH_TOKEN": "${localEnv:GH_TOKEN_FOR_LEVRIER_TECH}"
   },
@@ -31,21 +27,20 @@
     "ghcr.io/devcontainers/features/git-lfs:1": {},
     // ── helpers4 features ─────────────────────────────────────────────────────
     "ghcr.io/helpers4/devcontainer/dotfiles-sync:1": {},
-    "ghcr.io/helpers4/devcontainer/shell-history-per-project:1": {},
+    "ghcr.io/helpers4/devcontainer/shell-history:1": {},
     "ghcr.io/helpers4/devcontainer/git-absorb:1": {},
     "ghcr.io/helpers4/devcontainer/essential-dev:1": {},
     "ghcr.io/helpers4/devcontainer/github-dev:1": {},
     "ghcr.io/helpers4/devcontainer/typescript-dev:1": {},
     "ghcr.io/helpers4/devcontainer/vite-plus:1": {},
-    "ghcr.io/helpers4/devcontainer/peon-ping:1": {
-      "packs": "peasant_fr,peon_fr,warcraft-peon"
-    },
     "ghcr.io/helpers4/devcontainer/pnpm-store:1": {},
     "ghcr.io/helpers4/devcontainer/claude-dev:1": {
       "remoteControl": true,
       "remoteControlAutoTrust": true
     },
-    "ghcr.io/helpers4/devcontainer/package-auto-install:1": {}
+    "ghcr.io/helpers4/devcontainer/package-auto-install:1": {
+      "autoDiscover": true
+    }
   },
   "customizations": {
     "vscode": {
@@ -75,6 +70,5 @@
       "onAutoForward": "silent"
     }
   },
-  "remoteUser": "node",
-  "postCreateCommand": "bash .devcontainer/setup-container.sh"
+  "remoteUser": "node"
 }
