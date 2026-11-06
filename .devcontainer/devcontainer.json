@@ -8,15 +8,14 @@
   // if a sibling repo is missing on host (e.g. GitHub Codespaces).
   "workspaceFolder": "/workspaces/.dev",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/.dev,type=bind,consistency=cached",
-  // GH_TOKEN: forwards a levrier-tech-scoped host token into the container so gh
-  // and the GitHub VS Code extensions are authenticated out of the box.
-  // Set on the host: export GH_TOKEN_FOR_LEVRIER_TECH=<token>
-  // Secrets live in remoteEnv, not containerEnv: they are not baked into the container
-  // (docker run args / docker inspect) and a rotated token needs a reconnect, not a rebuild.
-  "remoteEnv": {
-    "GH_TOKEN": "${localEnv:GH_TOKEN_FOR_LEVRIER_TECH}"
-  },
   "features": {
+    // Secrets come from OpenBao (kv/shared/*, then kv/orgs/levrier-tech) into every process's env,
+    // VS Code included. Not in remoteEnv: `${localEnv:…}` is empty when VS Code attaches and
+    // would override them.
+    "ghcr.io/helpers4/devcontainer/openbao-env:1": {
+      "address": "https://bao.baxyz.dev:8200",
+      "paths": "shared/font-awesome,shared/web-awesome,orgs/levrier-tech"
+    },
     "ghcr.io/helpers4/devcontainer/org-workspace:1": {
       "autoDiscover": "public,private,internal,fork"
     },

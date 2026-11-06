@@ -25,8 +25,9 @@ Or open `.dev` in VS Code and **Reopen in Container** — missing repos are clon
 
 ## Host setup
 
-Export a GitHub token scoped to levrier-tech before opening the devcontainer:
-
-```bash
-export GH_TOKEN_FOR_LEVRIER_TECH=<your-token>
-```
+Secrets (`GH_TOKEN`, …) come from OpenBao — `kv/orgs/levrier-tech`, plus `kv/shared/*` — through the
+[`openbao-env`](https://github.com/helpers4/devcontainer/tree/main/src/openbao-env) feature, into
+every process of the container (VS Code included). On fajro, `devc up levrier-tech` hands the
+container its credentials. In GitHub Codespaces, set the Codespaces secrets `BAO_ROLE_ID` and
+`BAO_SECRET_ID` (AppRole `levrier-tech`) and give the codespace Tailscale access: OpenBao is only
+reachable on the tailnet.
