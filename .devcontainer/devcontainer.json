@@ -1,5 +1,8 @@
 {
   "name": "Lévrier Tech",
+  // Stable machine name: Remote Control names the environment "<hostname>:<folder>", and the
+  // default hostname is the container id, which changes on every rebuild.
+  "runArgs": ["--hostname=levrier-tech"],
   "image": "mcr.microsoft.com/devcontainers/typescript-node:26",
   // Orchestrator devcontainer for the levrier-tech organization.
   //
